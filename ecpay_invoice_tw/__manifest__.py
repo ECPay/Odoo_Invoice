@@ -11,6 +11,9 @@
         sudo pip3 install ecpay_invoice3
     """,
 	'icon': 'static/description/ace_logo.png',
+	'license' : 'AGPL-3',
+	'image' : 'static/description/ace_logo.png',
+	'htmldescription' : 'https://www.ecpay.com.tw/Intro/OdooIntro',
     'summary': '電子發票 (Invoice): ECPay 綠界第三方電子發票模組',
     'depends': ['account', 'sale', 'website_sale'],
     'data': [
