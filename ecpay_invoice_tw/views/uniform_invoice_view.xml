@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="uniform_invoice_view_form" model="ir.ui.view">
+            <field name="name">uniform_invoice_view_form</field>
+            <field name="model">uniform.invoice</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="查看發票資訊" type="object" name="get_ecpay_invoice_info"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="發票資訊">
+                                <field name="invoice_month"/>
+                                <field name="name"/>
+                                <field name="related_number"/>
+                                <field name="IIS_Mer_ID"/>
+                                <field name="IIS_Relate_Number"/>
+                                <field name="IIS_Category"/>
+                                <field name="IIS_Check_Number"/>
+                                <field name="IIS_Number"/>
+                                <field name="IIS_Clearance_Mark"/>
+                                <field name="IIS_Random_Number"/>
+                                <field name="IIS_Sales_Amount"/>
+                                <field name="IIS_Remain_Allowance_Amt"/>
+                                <field name="IIS_Tax_Amount"/>
+                                <field name="IIS_Tax_Rate"/>
+                                <field name="IIS_Tax_Type"/>
+                                <field name="IIS_Type"/>
+                            </group>
+                            <group string="客戶資料">
+                                <field name="IIS_Carruer_Num"/>
+                                <field name="IIS_Carruer_Type"/>
+                                <field name="IIS_Customer_ID"/>
+                                <field name="IIS_Customer_Name"/>
+                                <field name="IIS_Identifier"/>
+                                <field name="IIS_Customer_Phone"/>
+                                <field name="IIS_Customer_Email"/>
+                                <field name="IIS_Customer_Addr"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="item" string="商品明細">
+                                <group>
+                                     <field name="ItemName"/>
+                                    <field name="ItemCount"/>
+                                    <field name="ItemWord"/>
+                                    <field name="ItemPrice"/>
+                                    <field name="ItemRemark"/>
+                                    <field name="ItemTaxType"/>
+                                    <field name="InvoiceRemark"/>
+                                    <field name="ItemAmount"/>
+                                </group>
+                            </page>
+                            <page name="info" string="發票資訊">
+                                <group>
+                                    <field name="IIS_Create_Date"/>
+                                    <field name="IIS_Upload_Status"/>
+                                    <field name="IIS_Upload_Date"/>
+                                    <field name="IIS_Turnkey_Status"/>
+                                    <field name="IIS_Award_Flag"/>
+                                    <field name="IIS_Award_Type"/>
+                                    <field name="IIS_Invalid_Status"/>
+                                    <field name="IIS_Issue_Status"/>
+                                    <field name="IIS_IP"/>
+                                    <field name="IIS_Print_Flag"/>
+                                    <field name="IIS_Love_Code"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="uniform_invoice_view_tree" model="ir.ui.view">
+            <field name="name">uniform_invoice_view_tree</field>
+            <field name="model">uniform.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="related_number"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="uniform_invoice_view_action" model="ir.actions.act_window">
+            <field name="name">統一發票</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">uniform.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

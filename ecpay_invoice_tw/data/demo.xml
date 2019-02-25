@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="demo_invoice_mode" model="ir.config_parameter">
+            <field name="key">ecpay_invoice_tw.ecpay_demo_mode</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="demo_MerchantID" model="ir.config_parameter">
+            <field name="key">ecpay_invoice_tw.ecpay_MerchantID</field>
+            <field name="value">2000132</field>
+        </record>
+
+        <record id="demo_HashKey" model="ir.config_parameter">
+            <field name="key">ecpay_invoice_tw.ecpay_HashKey</field>
+            <field name="value">ejCk326UnaZWKisg</field>
+        </record>
+
+        <record id="demo_HashIV" model="ir.config_parameter">
+            <field name="key">ecpay_invoice_tw.ecpay_HashIV</field>
+            <field name="value">q9jcZX8Ib9LM8wYk</field>
+        </record>
+
+        <record id="demo_auto_invoice" model="ir.config_parameter">
+            <field name="key">ecpay_invoice_tw.auto_invoice</field>
+            <field name="value">automatic</field>
+        </record>
+    </data>
+</odoo>

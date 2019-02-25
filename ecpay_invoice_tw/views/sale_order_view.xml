@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ec_sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">ec_sale_order_form_inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='technical']" position="after">
+                    <group string="綠界電商資料" name="ec_data">
+                        <field name="ec_print"/>
+                        <field name="ec_donate"/>
+                        <field name="ec_donate_number"/>
+                        <field name="ec_ident_name"/>
+                        <field name="ec_ident"/>
+                        <field name="ec_print_address"/>
+                        <field name="ec_carruer_type"/>
+                        <field name="ec_carruer_number"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

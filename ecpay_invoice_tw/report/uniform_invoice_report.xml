@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <report
+            id="action_print_ecpay_invoice"
+            string="列印電子發票"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="ecpay_invoice_tw.invoice"
+            file="ecpay_invoice_tw.invoice"
+            print_report_name="'%s' % (object.ecpay_invoice_id.name)"
+        />
+
+        <template id="invoice">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <link href="/ecpay_invoice_tw/static/src/css/invoice.css" rel="stylesheet"/>
+                        <div class="invoiceContainer">
+                            <div class="invoice_inner">
+                                <div class="invoice" style="vertical-align: middle;">
+                                    <h1 style="text-align:center; width:5.7cm;margin-top:50px;"><t t-esc="user.company_id.name"/></h1>
+                                    <h2 style="text-align:center; width:5.7cm;">電子發票證明聯</h2>
+                                    <h3 class="date"><t t-esc="o.invoice_month"/> </h3>
+                                    <h3><t t-esc="o.IIS_Number"/></h3>
+                                    <ul>
+                                 <li style="line-height: 15px;">
+                                     <span class="left"><font style="font-weight: 500;"><t t-esc="o.IIS_Create_Date"/></font></span>
+                                     <!--暫時不需要格式-->
+                                     <!--<span class="right"><font style="font-weight: 500;">格式 ?? </font></span>-->
+                                 </li>
+                                 <li style="line-height: 15px;">
+                                     <span class="left"><font style="font-weight: 500;">隨機碼：<t t-esc="o.IIS_Random_Number"/></font></span>
+                                     <span class="right"><font style="font-weight: 500;">總計:<t t-esc="o.IIS_Sales_Amount"/></font></span>
+                                 </li>
+                                 <li style="line-height: 15px;"><span class="left"><font style="font-weight: 500;">賣方 <t t-esc="seller_Identifier"/></font></span>
+                                     <!--暫時不需要買方統編-->
+                                     <!--<span class="right"><font style="font-weight: 500;">買方 <t t-esc="o.IIS_Identifier"/></font></span>-->
+                                 </li>
+                             </ul>
+                             <img id="inv_barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s'%('Standard39', o.PosBarCode)" class="line" style="display: block; margin: 3px auto 7px; width: 5cm; height: 0.8cm; letter-spacing: 0.33cm;"></img>
+                             <img id="QRCode_Left0" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.QRCode_Left, 600, 600)" class="QRCode_Left" index="0" style=" width:2cm;height:2cm; display:inline-block; margin-right:0.5cm;margin-top:10px;"></img>
+                             <img id="QRCode_Right0" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.QRCode_Right, 600, 600)" class="QRCode_Right" index="0" style=" width:2cm;height:2cm; display:inline-block; margin-right:0cm;margin-top:10px;"></img>
+                                </div>
+                                <div class="invoice_details">
+                                    <h2>
+                                        <font style="font-weight: 500;">交易明細</font>
+                                    </h2>
+                                    <ul>
+                                 <!--<li style="line-height: 15px;"><span class="left"><font style="font-weight: 500;">買受人統編 ??????</font></span></li>-->
+                                 <!--<li style="line-height: 15px;"><font style="font-weight: 500;">買受人名稱 <t t-if="order.get_client()"><t t-esc="order.get_client().name"/></t></font></li>-->
+                                 <li style="line-height: 15px;"><font style="font-weight: 500;"><t t-esc="o.IIS_Create_Date"/></font></li>
+                             </ul>
+                             <table width="100%" border="1" class="table" style="word-break:break-all;">
+                                 <tbody>
+                                     <tr>
+                                         <th style="width:33%;"><font style="font-weight: 500;">品名</font></th>
+                                         <th class="cntr"><font style="font-weight: 500;">單價*數量</font></th>
+                                         <th class="bind"><font style="font-weight: 500;">金額</font></th>
+                                     </tr>
+                                     <t t-foreach="orderlines" t-as="orderline">
+                                         <tr>
+                                             <td colspan="3" style="word-break: break-all;">
+                                                 <font style="font-weight: 500;">
+                                                     <t t-esc="orderline.product_id.name"/>
+                                                 </font>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td> </td>
+                                             <td class="cntr"><font style="font-weight: 500;"><t t-esc="orderline.price_unit"/>*<t t-esc="int(orderline.quantity)"/></font></td>
+                                             <td class="bind"><font style="font-weight: 500;"><t t-esc="int(orderline.price_total)" />TX</font></td>
+                                         </tr>
+                                     </t>
+                                 </tbody>
+                             </table>
+                             <h4>
+                                 <font style="font-weight: 500;">合計 <t t-esc="len(orderlines)"/> 項</font></h4>
+                                    <!--對B2C不需要列印稅額，先拿掉-->
+                             <!--<h4>-->
+                                 <!--<font style="font-weight: 500;">銷售額(應稅) <t t-esc="o.IIS_Sales_Amount"/></font>-->
+                             <!--</h4>-->
+                             <!--<h4>-->
+                                 <!--<font style="font-weight: 500;">-->
+                                     <!--稅額-->
+                                     <!--<t t-esc="int(o.IIS_Tax_Amount)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+                                 <!--</font>-->
+                             <!--</h4>-->
+                             <h4>
+                                 <font style="font-weight: 500;">總計 <t t-esc="int(o.IIS_Sales_Amount)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></font></h4>
+                             <h4 style="word-break: break-all;">
+                                 <font style="font-weight: 500;">備註： <t t-esc="o.InvoiceRemark"/></font>
+                             </h4>
+                         </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
