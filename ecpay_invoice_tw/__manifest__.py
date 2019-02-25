@@ -10,6 +10,7 @@
         需要依賴模組 ecpay_invoice3\n
         sudo pip3 install ecpay_invoice3
     """,
+	'icon': 'static/description/ace_logo.png',
     'summary': '電子發票 (Invoice): ECPay 綠界第三方電子發票模組',
     'depends': ['account', 'sale', 'website_sale'],
     'data': [
