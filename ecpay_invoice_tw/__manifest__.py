@@ -2,8 +2,8 @@
     'name': 'ECPay 綠界第三方電子發票模組',
     'version': '1.4',
     'category': 'Accounting',
-    'author': 'Chang Chia-Ming',
-    'website': 'http://blog.alltop.com.tw/alltopco/',
+    'author': 'ECPAY',
+    'website': 'http://www.ecpay.com.tw',
     'description': """
         綠界 台灣電子發票Odoo模組\n
         使用 pyhton3\n
