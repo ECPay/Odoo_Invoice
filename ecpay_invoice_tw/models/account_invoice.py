@@ -69,9 +69,9 @@ class ECPAYINVOICEInherit(models.Model):
         auto_invoice = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice')
         # 如果發票為折讓，則不自動產生電子發票
         if auto_invoice == 'automatic':
-            if self.type not in ['in_refund', 'out_refund']:
+            if self.type not in ['in_refund', 'out_refund', 'in_invoice']:
                 self.create_ecpay_invoice()
-            elif self.is_refund is True:
+            elif self.is_refund is True and self.type == 'out_refund':
                 self.run_refund()
         return res
 
@@ -231,7 +231,7 @@ class ECPAYINVOICEInherit(models.Model):
         # 更新儲存在Odoo中的電子發票資訊
         self.ecpay_invoice_id.get_ecpay_invoice_info()
 
-    # 執行電子發票折讓
+    # 執行電子發票作廢
     def run_refund(self):
         # 檢查欲折讓的發票是否有被設定
         if self.ecpay_invoice_id.id is False:
@@ -260,7 +260,6 @@ class ECPAYINVOICEInherit(models.Model):
         self.IA_Allow_No = aReturn_Info['IA_Allow_No']
         # 更新發票的剩餘折讓金額
         self.ecpay_invoice_id.IA_Remain_Allowance_Amt = aReturn_Info['IA_Remain_Allowance_Amt']
-        self.refund_finish = True
 
 
 
