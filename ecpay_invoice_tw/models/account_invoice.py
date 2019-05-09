@@ -122,8 +122,9 @@ class ECPAYINVOICEInherit(models.Model):
         ecpay_invoice.Send['CustomerEmail'] = self.partner_id.email if self.partner_id.email else ''
         ecpay_invoice.Send['ClearanceMark'] = ''
 
+    # 檢查發票邏輯
     def validate_ecpay_invoice(self):
-        # 檢查發票邏輯
+
         if self.is_print is True and self.is_donation is True:
             raise UserError('列印發票與捐贈發票不能同時勾選！！')
         elif self.is_print is True and self.carruerType is not False:
@@ -131,6 +132,13 @@ class ECPAYINVOICEInherit(models.Model):
         elif self.is_print is False and self.carruerType in ['2', '3'] and self.is_donation is False:
             if self.carruernum is False:
                 raise UserError('請輸入發票載具號碼！！')
+            elif self.carruerType == '3':
+                if not self.check_carruernum(self.carruernum):
+                    raise UserError('手機載具不存在！！')
+
+        if self.is_donation is True and self.lovecode is not False:
+            if not self.check_lovecode(self.lovecode):
+                raise UserError('愛心碼不存在！！')
 
         # 檢查客戶地址
         if self.ec_print_address is False and self.partner_id.street is False:
@@ -262,7 +270,42 @@ class ECPAYINVOICEInherit(models.Model):
         self.ecpay_invoice_id.IA_Remain_Allowance_Amt = aReturn_Info['IA_Remain_Allowance_Amt']
         self.refund_finish = True
 
+    # 電子發票前端驗證手機條碼ＡＰＩ
+    @api.model
+    def check_carruernum(self, text):
+        # 建立電子發票物件
+        invoice = EcpayInvoice()
+        # 初始化物件
+        self.demo_invoice_init(invoice, 'Query/CheckMobileBarCode', 'CHECK_MOBILE_BARCODE')
 
+        # 準備傳送參數
+        invoice.Send['BarCode'] = text
 
+        # 送出資訊
+        aReturn_Info = invoice.Check_Out()
 
+        # 檢查是否成功
+        if aReturn_Info['RtnCode'] == '1' and aReturn_Info['IsExist'] == 'Y':
+            return True
+        else:
+            return False
 
+    # 電子發票前端驗證愛心碼ＡＰＩ
+    @api.model
+    def check_lovecode(self, text):
+        # 建立電子發票物件
+        invoice = EcpayInvoice()
+        # 初始化物件
+        self.demo_invoice_init(invoice, 'Query/CheckLoveCode', 'CHECK_LOVE_CODE')
+
+        # 準備傳送參數
+        invoice.Send['LoveCode'] = text
+
+        # 送出資訊
+        aReturn_Info = invoice.Check_Out()
+
+        # 檢查是否成功
+        if aReturn_Info['RtnCode'] == '1' and aReturn_Info['IsExist'] == 'Y':
+            return True
+        else:
+            return False

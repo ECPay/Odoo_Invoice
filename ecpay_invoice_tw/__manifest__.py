@@ -1,6 +1,6 @@
 {
     'name': 'ECPay 綠界第三方電子發票模組',
-    'version': '1.4',
+    'version': '1.5',
     'category': 'Accounting',
     'author': 'ECPAY',
     'website': 'http://www.ecpay.com.tw',

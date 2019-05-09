@@ -2,6 +2,7 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
     "use strict";
 
     var ajax = require('web.ajax');
+    var rpc = require('web.rpc');
     var check_invoice_name = false, check_ident = false, check_invoice_address = false , check_num= false, check_lovecode = false;
 
     var add_show = false,love_show = false,type_show = false,carr_show=false,ident_show = false,ident_data_show=false;
@@ -34,6 +35,8 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
             });
         }
     }
+
+
     // 計算名稱字數
     let check_invoice_name_length = (name) => {
             let l = name.length;
@@ -64,6 +67,7 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
         next_button.on("click",function () {
             chose_invoice_type();
         });
+
         function next_button_botton_validate () {
             // 情況1：列印紙本發票
             if (add_show && ident_data_show === false){
@@ -173,6 +177,9 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
                 love_show = false;
                 type_show = true;
                 ident_show = false;
+                if ($('#invoice_type').val()==='2' || $('#invoice_type').val()==='3'){
+                    carr_show=true;
+                }
             }
             else if (this.value === '1'){
                 // 顯示發票地址
@@ -271,13 +278,28 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
                 }
             }
             else if (carruer_type === '3') {
-                if(is_identifier.match(new RegExp(/^\/[A-Za-z0-9\s+-]{7}$/)) === null){
+                if(is_identifier.match(new RegExp(/^\/{1}[0-9a-zA-Z+-.]{7}$/)) === null){
                     $('#ecpay_invoice_CarruerNum').addClass("has-error");
+                    $("#warning-CarruerNum").html("載具格式為1碼斜線「/」加上7碼由數字及大寫英文字母及+-.符號組成的字串");
                     check_num = false;
                 }
                 else {
-                    $('#ecpay_invoice_CarruerNum').removeClass("has-error");
-                    check_num = true;
+                    // 檢查手機條碼的正確性API
+                    rpc.query({
+                        model: 'account.invoice',
+                        method: 'check_carruernum',
+                        args: [is_identifier],
+                    }).then(function (result) {
+                        // 如果結果正確，就移除錯誤警告
+                        if (result){
+                        $('#ecpay_invoice_CarruerNum').removeClass("has-error");
+                        check_num = true;
+                        waring_check()
+                        }
+                        else {
+                            $("#warning-CarruerNum").html("載具內容不存在");
+                        }
+                    });
                 }
             }
 
@@ -306,11 +328,29 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
             var re = /^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/;
             var is_ident = re.test(input.val());
             if (is_ident){
-                $('#ecpay_invoice_LoveCode').removeClass("has-error");
-                check_lovecode = true;
+
+                // 檢查愛心碼的正確性API
+                rpc.query({
+                    model: 'account.invoice',
+                    method: 'check_lovecode',
+                    args: [input.val()],
+                }).then(function (result) {
+                    // 如果結果正確，就移除錯誤警告
+                    if (result){
+                        $('#ecpay_invoice_LoveCode').removeClass("has-error");
+                        check_lovecode = true;
+                        waring_check()
+                    }
+                    else {
+                        $('#warning-LoveCode').html("愛心碼不存在");
+                    }
+
+                });
             } else {
+                $('#warning-LoveCode').html("愛心碼格式應為3~7碼的數字");
                 $('#ecpay_invoice_LoveCode').addClass("has-error");
                 check_lovecode = false;
+
             }
             waring_check()
         });
