@@ -1,6 +1,6 @@
 {
     'name': 'ECPay 綠界第三方電子發票模組',
-    'version': '1.4',
+    'version': '1.5',
     'category': 'Accounting',
     'author': 'ECPAY',
     'website': 'http://www.ecpay.com.tw',
@@ -10,10 +10,7 @@
         需要依賴模組 ecpay_invoice3\n
         sudo pip3 install ecpay_invoice3
     """,
-	'icon': 'image/icon.png',
-	'license' : 'AGPL-3',
-	'images' : ['image/1000x500.png'],
-	'summary': '電子發票 (Invoice): ECPay 綠界第三方電子發票模組',
+    'summary': '電子發票 (Invoice): ECPay 綠界第三方電子發票模組',
     'depends': ['account', 'sale', 'website_sale'],
     'data': [
         'security/ir.model.access.csv',
