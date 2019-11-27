@@ -8,44 +8,44 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@id='invoicing_settings']" position="after">
                     <h2>綠界電子發票</h2>
-                     <div class="row mt16 o_settings_container">
-                         <div class="col-xs-12 col-md-6 o_setting_box">
-                             <div class="o_setting_left_pane"/>
-                             <div class="o_setting_right_pane">
-                                 <label string="電子發票"/>
-                                 <span class="fa fa-lg"/>
-                                 <div class="text-muted">
-                                     電子發票基本設定
-                                 </div>
-                                 <div class="content-group">
-                                     <div class="row mt16">
-                                         <label for="ecpay_demo_mode" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_demo_mode"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_MerchantID" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_MerchantID"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_HashKey" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_HashKey"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_HashIV" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_HashIV"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="auto_invoice" class="col-md-3 o_light_label"/>
-                                         <field name="auto_invoice"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="seller_Identifier" class="col-md-3 o_light_label"/>
-                                         <field name="seller_Identifier"/>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane"> </div>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">電子發票</span>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                <div class="text-muted">
+                                    電子發票基本設定
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="ecpay_demo_mode" class="col-md-3 o_light_label"/>
+                                        <field name="ecpay_demo_mode"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ecpay_MerchantID" class="col-md-3 o_light_label"/>
+                                        <field name="ecpay_MerchantID"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ecpay_HashKey" class="col-md-3 o_light_label"/>
+                                        <field name="ecpay_HashKey"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ecpay_HashIV" class="col-md-3 o_light_label"/>
+                                        <field name="ecpay_HashIV"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="auto_invoice" class="col-md-3 o_light_label"/>
+                                        <field name="auto_invoice"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="seller_Identifier" class="col-md-3 o_light_label"/>
+                                        <field name="seller_Identifier"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </xpath>
             </field>
         </record>

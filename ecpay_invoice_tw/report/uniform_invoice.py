@@ -6,8 +6,8 @@ class ReportEcpayInvoice(models.AbstractModel):
     _name = 'report.ecpay_invoice_tw.invoice'
 
     @api.model
-    def get_report_values(self, docids, data=None):
-        docs = self.env['account.invoice'].browse(docids)
+    def _get_report_values(self, docids, data=None):
+        docs = self.env['account.move'].browse(docids)
         ecpay_invoice = []
         for line in docs:
             if line.uniform_state == 'invoiced':

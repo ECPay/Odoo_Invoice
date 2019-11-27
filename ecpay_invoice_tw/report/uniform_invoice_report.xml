@@ -4,7 +4,7 @@
          <report
             id="action_print_ecpay_invoice"
             string="列印電子發票"
-            model="account.invoice"
+            model="account.move"
             report_type="qweb-pdf"
             name="ecpay_invoice_tw.invoice"
             file="ecpay_invoice_tw.invoice"

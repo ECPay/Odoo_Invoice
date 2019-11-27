@@ -286,7 +286,7 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
                 else {
                     // 檢查手機條碼的正確性API
                     rpc.query({
-                        model: 'account.invoice',
+                        model: 'account.move',
                         method: 'check_carruernum',
                         args: [is_identifier],
                     }).then(function (result) {
@@ -331,7 +331,7 @@ odoo.define('ecpay_invoice_tw.checkout', function (require) {
 
                 // 檢查愛心碼的正確性API
                 rpc.query({
-                    model: 'account.invoice',
+                    model: 'account.move',
                     method: 'check_lovecode',
                     args: [input.val()],
                 }).then(function (result) {
