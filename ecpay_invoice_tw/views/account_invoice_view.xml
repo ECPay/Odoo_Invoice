@@ -3,8 +3,8 @@
     <data>
         <record id="ecpay_invoice_view_form" model="ir.ui.view">
             <field name="name">ecpay_invoice_view_form</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="replace">
                     <div class="oe_button_box" name="button_box">
@@ -14,38 +14,39 @@
                         <button name="run_refund" type="object" class="oe_stat_button" icon="fa-trash-o" string="折讓電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True), ('refund_finish', '=', True),('type','not in',['in_refund','out_refund'])]}"/>
                     </div>
                 </xpath>
-                <xpath expr="//field[@name='sent']" position="before">
-                    <group string="綠界電子發票欄位" attrs="{'invisible': [('type','in',['in_refund','out_refund'])]}">
-                        <group>
-                            <field name="uniform_state" readonly="1"/>
-                            <field name="ecpay_invoice_id" readonly="1"/>
-                            <field name="IIS_Relate_Number" readonly="1"/>
-                            <field name="IIS__Sales_Amount" readonly="1"/>
-                            <field name="IIS_Remain_Allowance_Amt" readonly="1"/>
-                            <field name="IIS_Invalid_Status" readonly="1"/>
-                            <field name="IIS_Issue_Status" readonly="1"/>
-                            <field name="ecpay_tax_type"/>
-                            <field name="show_create_invoice" invisible="1"/>
+                <xpath expr="//page[@id='invoice_tab']" position="after">
+                    <page id="uniform_invoice" string="綠界電子發票">
+                        <group string="綠界電子發票欄位" attrs="{'invisible': [('type','in',['in_refund','out_refund'])]}">
+                            <group>
+                                <field name="uniform_state" readonly="1"/>
+                                <field name="ecpay_invoice_id" readonly="1"/>
+                                <field name="IIS_Relate_Number" readonly="1"/>
+                                <field name="IIS__Sales_Amount" readonly="1"/>
+                                <field name="IIS_Remain_Allowance_Amt" readonly="1"/>
+                                <field name="IIS_Invalid_Status" readonly="1"/>
+                                <field name="IIS_Issue_Status" readonly="1"/>
+                                <field name="ecpay_tax_type"/>
+                                <field name="show_create_invoice" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="is_donation"/>
+                                <field name="lovecode"/>
+                                <field name="is_print"/>
+                                <field name="ec_print_address"/>
+                                <field name="ecpay_CustomerIdentifier"/>
+                                <field name="ec_ident_name"/>
+                                <field name="carruerType"/>
+                                <field name="carruernum"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="is_donation"/>
-                            <field name="lovecode"/>
-                            <field name="is_print"/>
-                            <field name="ec_print_address"/>
-                            <field name="ecpay_CustomerIdentifier"/>
-                            <field name="ec_ident_name"/>
-                            <field name="carruerType"/>
-                            <field name="carruernum"/>
+                        <group string="綠界發票折讓" attrs="{'invisible': [('type','not in',['in_refund','out_refund'])]}">
+                            <group>
+                                <field name="IA_Invoice_No"/>
+                                <field name="IA_Allow_No"/>
+                                <field name="refund_finish" invisible="1"/>
+                            </group>
                         </group>
-                    </group>
-                    <group string="綠界發票折讓" attrs="{'invisible': [('type','not in',['in_refund','out_refund'])]}">
-                        <group>
-                            <field name="IA_Invoice_No"/>
-                            <field name="IA_Allow_No"/>
-                            <field name="refund_finish" invisible="1"/>
-                        </group>
-                        <group></group>
-                    </group>
+                    </page>
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
@@ -56,8 +57,8 @@
 
         <record id="ecpay_account_invoice_view_tree" model="ir.ui.view">
             <field name="name">ecpay_account_invoice_view_tree</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='state']" position="after">
                     <field name="ecpay_invoice_id"/>

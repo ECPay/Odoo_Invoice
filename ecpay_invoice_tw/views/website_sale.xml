@@ -8,7 +8,7 @@
         </template>
 
         <template id="ecpay_invoice_invoice_stage" name="Ecpay Invoice Invoice Stage" inherit_id="website_sale.checkout">
-            <xpath expr="//div[@class='row']/div[hasclass('col-md-8','col-md-offset-2','oe_cart')]/div[@class='row'][2]" position="after">
+            <xpath expr="//div[@class='row']/div[hasclass('col-12','col-xl', 'order-xl-1', 'oe_cart')]/div[@class='row'][1]" position="after">
                 <div class="row">
                     <div class="col-md-12">
                         <h2 class="page-header mt8">電子發票</h2>

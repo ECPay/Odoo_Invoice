@@ -26,7 +26,6 @@ class EcpayInvocieResConfigSettings(models.TransientModel):
         )
         return res
 
-    @api.multi
     def set_values(self):
         super(EcpayInvocieResConfigSettings, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.ecpay_demo_mode', self.ecpay_demo_mode)

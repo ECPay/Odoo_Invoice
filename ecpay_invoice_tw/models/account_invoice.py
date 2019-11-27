@@ -7,7 +7,7 @@ import decimal
 
 
 class ECPAYINVOICEInherit(models.Model):
-    _inherit = "account.invoice"
+    _inherit = "account.move"
 
     ecpay_invoice_id = fields.Many2one(comodel_name='uniform.invoice', string='統一發票號碼')
     uniform_state = fields.Selection(selection=[('to invoice', '未開電子發票'), ('invoiced', '已開電子發票'), ('invalid', '已作廢')], string='電子發票狀態',
@@ -63,7 +63,6 @@ class ECPAYINVOICEInherit(models.Model):
                 row.show_hand_in_field = False
 
     # 當開立模式是自動開立時，在發票進行驗證(打開)時，同時進行開立發票的動作。
-    @api.multi
     def action_invoice_open(self):
         res = super(ECPAYINVOICEInherit, self).action_invoice_open()
         auto_invoice = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice')
@@ -97,7 +96,7 @@ class ECPAYINVOICEInherit(models.Model):
             res.append({
                 'ItemName': line.product_id.name[:30],
                 'ItemCount': int(line.quantity),
-                'ItemWord': line.uom_id.name[:6],
+                'ItemWord': line.product_uom_id.name[:6],
                 'ItemPrice': line.price_unit,
                 'ItemTaxType': '',
                 'ItemAmount': line.price_unit * int(line.quantity),

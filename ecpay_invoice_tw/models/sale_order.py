@@ -14,7 +14,6 @@ class EcpayInvoiceSaleOrder(models.Model):
                                                                   ('3', '消費者手機條碼')])
     ec_carruer_number = fields.Char(string="載具號碼")
 
-    @api.multi
     def _prepare_invoice(self):
         res = super(EcpayInvoiceSaleOrder, self)._prepare_invoice()
 
