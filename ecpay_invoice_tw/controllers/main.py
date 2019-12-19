@@ -3,6 +3,7 @@ from odoo import http
 from odoo.http import request
 
 
+
 class EcpayInvoiceController(http.Controller):
 
     @http.route('/payment/ecpay/save_invoice_type', type='json', methods=['POST'], auth="public")
@@ -40,3 +41,19 @@ class EcpayInvoiceController(http.Controller):
         print(res)
         order.write(res)
         return '200'
+
+    @http.route('/invoice/ecpay/agreed_invoice_allowance', type='http',auth="none", csrf=False)
+    def agreed_invoice_allowance(self, **kwargs):
+        if kwargs['RtnCode'] =='1':
+            print(kwargs['IA_Allow_No'])
+            invoice = request.env['account.invoice'].sudo().search([('IA_Allow_No', '=', kwargs['IA_Allow_No'])], limit=1)
+            if invoice:
+                invoice.write({'refund_state': 'agreed'})
+        else:
+            invoice = request.env['account.invoice'].sudo().search([('IA_Allow_No', '=', kwargs['IA_Allow_No'])], limit=1)
+            if invoice:
+                invoice.write({'refund_state': 'disagree'})
+
+
+        return '200'
+

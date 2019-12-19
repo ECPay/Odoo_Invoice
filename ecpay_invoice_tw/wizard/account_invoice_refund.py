@@ -5,6 +5,10 @@ from odoo.exceptions import UserError
 class ECPAYINVOICEREFUNDInherit(models.TransientModel):
     _inherit = 'account.invoice.refund'
 
+    refund_ecpay_kind = fields.Selection([('offline', '紙本同意'), ('online', '線上同意')],
+        default='offline', string='同意類型', required=True, help='折讓電子發票同意類型')
+
+
     @api.multi
     def compute_refund(self, mode='refund'):
         res = super(ECPAYINVOICEREFUNDInherit, self).compute_refund(mode)
@@ -34,6 +38,7 @@ class ECPAYINVOICEREFUNDInherit(models.TransientModel):
             elif mode == 'refund':
                 # 設定該折讓單要關聯欲作廢或折讓的統一發票
                 refund_inv.ecpay_invoice_id = inv_obj.ecpay_invoice_id.id
+                refund_inv.refund_ecpay_kind = self.refund_ecpay_kind
                 # 折讓參數
                 refund_inv.is_refund = True
         return res

@@ -42,6 +42,14 @@
                                          <label for="seller_Identifier" class="col-md-3 o_light_label"/>
                                          <field name="seller_Identifier"/>
                                      </div>
+<!--                                     <div class="row mt16">-->
+<!--                                         <label for="ecpay_AllowanceByCollegiate" class="col-md-3 o_light_label"/>-->
+<!--                                         <field name="ecpay_AllowanceByCollegiate"/>-->
+<!--                                     </div>-->
+                                     <div class="row mt16">
+                                         <label for="ecpay_allowance_domain" class="col-md-3 o_light_label"/>
+                                         <field name="ecpay_allowance_domain"/>
+                                     </div>
                                  </div>
                              </div>
                          </div>

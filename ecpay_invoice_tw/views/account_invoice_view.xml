@@ -43,6 +43,9 @@
                             <field name="IA_Invoice_No"/>
                             <field name="IA_Allow_No"/>
                             <field name="refund_finish" invisible="1"/>
+                            <field name="refund_state" readonly="1"/>
+                            <field name="refund_ecpay_kind"/>
+
                         </group>
                         <group></group>
                     </group>

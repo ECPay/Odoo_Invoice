@@ -21,7 +21,8 @@
         'views/sale_order_view.xml',
         'views/menu.xml',
         'data/demo.xml',
-        'report/uniform_invoice_report.xml'
+        'report/uniform_invoice_report.xml',
+        'views/account_invoice_refund_view.xml',
     ],
     'external_dependencies': {
         'python': [

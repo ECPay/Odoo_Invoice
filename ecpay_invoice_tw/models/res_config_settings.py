@@ -12,6 +12,8 @@ class EcpayInvocieResConfigSettings(models.TransientModel):
     auto_invoice = fields.Selection(string='開立電子發票方式', required=True,
                                     selection=[('manual', '手動'), ('automatic', '自動'), ('hand in', '人工填入')])
     seller_Identifier = fields.Char(string='賣方統編')
+    ecpay_AllowanceByCollegiate = fields.Boolean(string='線上開立折讓', help='會使用線上開立折讓，並以E-mail通知消費者(買家) ')
+    ecpay_allowance_domain = fields.Char(string='網域名稱',default='https://your_domain_name/',help='線上開立折讓同傳時所需')
 
     @api.model
     def get_values(self):
@@ -22,7 +24,10 @@ class EcpayInvocieResConfigSettings(models.TransientModel):
             ecpay_HashKey=self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_HashKey'),
             ecpay_HashIV=self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_HashIV'),
             auto_invoice=self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice'),
-            seller_Identifier=self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.seller_Identifier')
+            seller_Identifier=self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.seller_Identifier'),
+            #ecpay_AllowanceByCollegiate = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_AllowanceByCollegiate'),
+            ecpay_allowance_domain = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_allowance_domain')
+
         )
         return res
 
@@ -35,3 +40,5 @@ class EcpayInvocieResConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.ecpay_HashIV', self.ecpay_HashIV)
         self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.auto_invoice', self.auto_invoice)
         self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.seller_Identifier', self.seller_Identifier)
+        #self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.ecpay_AllowanceByCollegiate', self.ecpay_AllowanceByCollegiate)
+        self.env['ir.config_parameter'].sudo().set_param('ecpay_invoice_tw.ecpay_allowance_domain',self.ecpay_allowance_domain)

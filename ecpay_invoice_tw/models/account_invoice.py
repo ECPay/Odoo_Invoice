@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from ecpay_invoice.ecpay_main import *
 from odoo.exceptions import UserError
+from werkzeug import urls
 
 import decimal
 
@@ -33,6 +34,12 @@ class ECPAYINVOICEInherit(models.Model):
 
     is_refund = fields.Boolean(string='是否為折讓')
     refund_finish = fields.Boolean(string='折讓完成')
+    refund_state = fields.Selection(selection=[('draft', '草稿'),('to be agreed', '待同意'), ('agreed', '開立成功'), ('disagree', '開立失敗')],
+                                     string='折讓通知狀態',
+                                     default='draft')
+    refund_ecpay_kind = fields.Selection([('offline', '紙本同意'), ('online', '線上同意')],
+        default='offline', string='同意類型', required=True, help='折讓電子發票同意類型')
+
     IA_Allow_No = fields.Char(string='折讓單號')
     IA_Invoice_No = fields.Many2one(string='被折讓的發票', related='ecpay_invoice_id')
     IIS_Remain_Allowance_Amt = fields.Char(string='剩餘可折讓金額', related='ecpay_invoice_id.IIS_Remain_Allowance_Amt')
@@ -244,11 +251,24 @@ class ECPAYINVOICEInherit(models.Model):
         # 檢查欲折讓的發票是否有被設定
         if self.ecpay_invoice_id.id is False:
             raise UserError('找不到欲折讓的發票！')
+        # 取得折讓方式(紙本開立或線上開立)
+        #refund_mode = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_AllowanceByCollegiate')
+        if self.refund_ecpay_kind=="offline" :
+            refund_mode = False
+        else :
+            refund_mode = True
 
         # 建立物件
         invoice = EcpayInvoice()
-        # 初始化物件
-        self.demo_invoice_init(invoice, 'Invoice/Allowance', 'ALLOWANCE')
+        # 初始化物件,依折讓方式(紙本開立或線上開立)
+        if refund_mode :
+            if not self.partner_id.email : raise UserError('必需要有客戶e-mail才能通知！')
+            self.demo_invoice_init(invoice, 'Invoice/AllowanceByCollegiate', 'AllowanceByCollegiate')
+            # 取得 domain
+            base_url = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_allowance_domain') if self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.ecpay_allowance_domain') else self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            invoice.Send['ReturnURL'] = urls.url_join(base_url, '/invoice/ecpay/agreed_invoice_allowance')
+        else :
+            self.demo_invoice_init(invoice, 'Invoice/Allowance', 'ALLOWANCE')
 
         invoice.Send['InvoiceNo'] = self.ecpay_invoice_id.name
         invoice.Send['AllowanceNotify'] = 'E'
@@ -269,6 +289,11 @@ class ECPAYINVOICEInherit(models.Model):
         # 更新發票的剩餘折讓金額
         self.ecpay_invoice_id.IA_Remain_Allowance_Amt = aReturn_Info['IA_Remain_Allowance_Amt']
         self.refund_finish = True
+        #若為線上開立，還需處理後續狀態
+        if refund_mode :
+            self.refund_state = 'to be agreed'
+        else:
+            self.refund_state = 'agreed'
 
     # 電子發票前端驗證手機條碼ＡＰＩ
     @api.model
