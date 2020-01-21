@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-
-        <record id="demo_invoice_mode" model="ir.config_parameter">
+        <record model="ir.config_parameter" id="demo_invoice_mode" >
             <field name="key">ecpay_invoice_tw.ecpay_demo_mode</field>
             <field name="value">True</field>
         </record>
@@ -25,11 +24,6 @@
         <record id="demo_auto_invoice" model="ir.config_parameter">
             <field name="key">ecpay_invoice_tw.auto_invoice</field>
             <field name="value">automatic</field>
-        </record>
-
-        <record id="demo_invoice_mode" model="ir.config_parameter">
-            <field name="key">ecpay_invoice_tw.ecpay_AllowanceByCollegiate</field>
-            <field name="value">False</field>
         </record>
     </data>
 </odoo>

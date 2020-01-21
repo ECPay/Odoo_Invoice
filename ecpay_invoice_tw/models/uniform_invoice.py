@@ -98,8 +98,12 @@ class UniformInvoice(models.Model):
 
         # 修正Odoo儲存時間的時差
 
-        # if aReturn_Info['IIS_Upload_Date'] != '':
-        #     aReturn_Info['IIS_Upload_Date'] = self.trasfer_time(aReturn_Info['IIS_Upload_Date'])
-        # if aReturn_Info['IIS_Create_Date'] != '':
-        #     aReturn_Info['IIS_Create_Date'] = self.trasfer_time(aReturn_Info['IIS_Create_Date'])
+         #if aReturn_Info['IIS_Upload_Date'] != '':
+         #    aReturn_Info['IIS_Upload_Date'] = self.trasfer_time(aReturn_Info['IIS_Upload_Date'])
+         #if aReturn_Info['IIS_Create_Date'] != '':
+         #    aReturn_Info['IIS_Create_Date'] = self.trasfer_time(aReturn_Info['IIS_Create_Date'])
+        if aReturn_Info['IIS_Upload_Date'] == '':
+            del aReturn_Info['IIS_Upload_Date']
+        if aReturn_Info['IIS_Create_Date'] == '':
+            del aReturn_Info['IIS_Create_Date']
         self.write(aReturn_Info)

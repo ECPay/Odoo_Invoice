@@ -6,21 +6,21 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-<!--                <xpath expr="//div[@name='button_box']" position="replace">-->
+<!--                <xpath expr="//div[@name='button_box']" position="inside">-->
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <div class="oe_button_box" name="button_box">
                         <button name="create_ecpay_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="串接電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True),('uniform_state', '!=', 'to invoice'),('type','in',['in_refund','out_refund'])]}"/>
                     </div>
                     <div class="oe_button_box" name="button_box">
-                        <button name="run_refund" type="object"  class="oe_stat_button" icon="fa-trash-o" string="折讓電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True), ('refund_finish', '=', True),('type','not in',['in_refund','out_refund'])]}"/>
+                        <button name="run_refund" type="object" class="oe_stat_button" icon="fa-trash-o" string="折讓電子發票" attrs="{'invisible': ['|','|',('show_create_invoice','!=',True), ('refund_finish', '=', True),('type','not in',['in_refund','out_refund'])]}"/>
                     </div>
                     <div class="oe_button_box" name="button_box">
                         <button name="get_ecpay_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="填入電子發票" attrs="{'invisible': ['|','|',('show_hand_in_field', '=', False),('uniform_state', '!=', 'to invoice'),('type','in',['in_refund','out_refund'])]}"/>
                     </div>
-                </xpath>
 
+                </xpath>
                 <xpath expr="//field[@name='sent']" position="before">
-                    <group string="人工填入綠界電子發票" attrs="{'invisible': [('show_hand_in_field', '=', False)]}">
+                     <group string="人工填入綠界電子發票" attrs="{'invisible': [('show_hand_in_field', '=', False)]}">
                         <group>
                             <field name="ecpay_invoice_code"/>
                             <field name="show_hand_in_field" invisible="1" />
@@ -56,12 +56,10 @@
                             <field name="IA_Allow_No"/>
                             <field name="refund_finish" invisible="1"/>
                             <field name="refund_state" readonly="1"/>
-                            <field name="refund_ecpay_kind"/>
-
+                            <field name="refund_ecpay_kind" />
                         </group>
                         <group></group>
                     </group>
-
                 </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">

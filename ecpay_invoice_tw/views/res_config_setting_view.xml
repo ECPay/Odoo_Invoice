@@ -1,61 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="ecpay_res_config_setting_form" model="ir.ui.view">
-            <field name="name">ecpay_res_config_setting_form</field>
-            <field name="model">res.config.settings</field>
-            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@id='invoicing_settings']" position="after">
-                    <h2>綠界電子發票</h2>
-                     <div class="row mt16 o_settings_container">
-                         <div class="col-xs-12 col-md-6 o_setting_box">
-                             <div class="o_setting_left_pane"/>
-                             <div class="o_setting_right_pane">
-                                 <label string="電子發票"/>
-                                 <span class="fa fa-lg"/>
-                                 <div class="text-muted">
-                                     電子發票基本設定
-                                 </div>
-                                 <div class="content-group">
-                                     <div class="row mt16">
-                                         <label for="ecpay_demo_mode" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_demo_mode"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_MerchantID" class="col-md-3 o_light_label"/>
-                                         <field name="ecpay_MerchantID"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_HashKey" class="col-md-3 o_light_label"/>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.ecpay</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='account']" position="inside">
+                <h2>電子發票</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box" groups="account.group_account_user">
+                        <div class="o_setting_left_pane">
+                            <field name="ecpay_demo_mode"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                             <label for="ecpay_demo_mode" />
+                             <div class="row mt16">
+                                <label for="ecpay_MerchantID" class="col-lg-4 o_light_label"/>
+                                <field name="ecpay_MerchantID"/>
+                                 <label for="ecpay_HashKey" class="col-lg-4 o_light_label"/>
                                          <field name="ecpay_HashKey"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="ecpay_HashIV" class="col-md-3 o_light_label"/>
+                                 <label for="ecpay_HashIV" class="col-lg-4 o_light_label"/>
                                          <field name="ecpay_HashIV"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="auto_invoice" class="col-md-3 o_light_label"/>
+                                 <label for="auto_invoice" class="col-lg-4 o_light_label"/>
                                          <field name="auto_invoice"/>
-                                     </div>
-                                     <div class="row mt16">
-                                         <label for="seller_Identifier" class="col-md-3 o_light_label"/>
+                                 <label for="seller_Identifier" class="col-lg-4 o_light_label"/>
                                          <field name="seller_Identifier"/>
-                                     </div>
-<!--                                     <div class="row mt16">-->
-<!--                                         <label for="ecpay_AllowanceByCollegiate" class="col-md-3 o_light_label"/>-->
-<!--                                         <field name="ecpay_AllowanceByCollegiate"/>-->
-<!--                                     </div>-->
-                                     <div class="row mt16">
-                                         <label for="ecpay_allowance_domain" class="col-md-3 o_light_label"/>
+                                 <label for="ecpay_allowance_domain" class="col-lg-4 o_light_label"/>
                                          <field name="ecpay_allowance_domain"/>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                </xpath>
-            </field>
-        </record>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
     </data>
 </odoo>

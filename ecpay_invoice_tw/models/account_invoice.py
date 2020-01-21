@@ -124,7 +124,6 @@ class ECPAYINVOICEInherit(models.Model):
                 'ItemAmount': ItemAmount,
                 'ItemRemark': line.name[:40]
             })
-            #amount_total += line.price_unit * line.quantity
             amount_total += line.price_total
         return res, amount_total
 
@@ -350,7 +349,7 @@ class ECPAYINVOICEInherit(models.Model):
         else:
             return False
 
-    # 產生電子發票
+    # 人工填入電子發票
     def get_ecpay_invoice(self):
         if self.ecpay_invoice_code is False :
                 raise UserError('請填入綠界電子發票自訂編號 ！！')
@@ -374,7 +373,3 @@ class ECPAYINVOICEInherit(models.Model):
         # 設定Odoo發票為已開電子發票
         self.uniform_state = 'invoiced'
         return True
-
-
-
-
