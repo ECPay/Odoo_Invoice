@@ -44,11 +44,17 @@ class ECPAYINVOICEInherit(models.Model):
     IA_Invoice_No = fields.Many2one(string='被折讓的發票', related='ecpay_invoice_id')
     IIS_Remain_Allowance_Amt = fields.Char(string='剩餘可折讓金額', related='ecpay_invoice_id.IIS_Remain_Allowance_Amt')
 
-    @api.onchange('is_print', 'carruerType')
+    ecpay_invoice_code = fields.Char(string='綠界電子發票自訂編號 ')
+
+    @api.onchange('is_print', 'carruerType','carruernum')
     def set_carruerType_false(self):
-        if self.is_print is True and self.carruerType is not False:
+        if self.is_print is True:
+            self.is_donation = False
             self.carruerType = False
             self.carruernum = False
+        #if self.is_print is True and self.carruerType is not False:
+        #    self.carruerType = False
+        #    self.carruernum = False
 
     @api.onchange('is_donation')
     def set_is_print_false(self):
@@ -76,7 +82,7 @@ class ECPAYINVOICEInherit(models.Model):
         auto_invoice = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.auto_invoice')
         # 如果發票為折讓，則不自動產生電子發票
         if auto_invoice == 'automatic':
-            if self.type not in ['in_refund', 'out_refund']:
+            if self.type in ['out_invoice']:
                 self.create_ecpay_invoice()
             elif self.is_refund is True:
                 self.run_refund()
@@ -101,16 +107,25 @@ class ECPAYINVOICEInherit(models.Model):
         res = []
         amount_total = 0.0
         for line in self.invoice_line_ids:
+            #若Vat = 0(免稅)，商品金額需為免稅金額若Vat = 1(含稅)，商品金額需為含稅金額
+            if self.ecpay_tax_type == '0':
+                ItemPrice = line.price_subtotal / int(line.quantity)
+                ItemAmount = line.price_subtotal
+            else:
+                ItemPrice = line.price_total / int(line.quantity)
+                ItemAmount = line.price_total
+
             res.append({
                 'ItemName': line.product_id.name[:30],
                 'ItemCount': int(line.quantity),
                 'ItemWord': line.uom_id.name[:6],
-                'ItemPrice': line.price_unit,
+                'ItemPrice': ItemPrice,
                 'ItemTaxType': '',
-                'ItemAmount': line.price_unit * int(line.quantity),
+                'ItemAmount': ItemAmount,
                 'ItemRemark': line.name[:40]
             })
-            amount_total += line.price_unit * line.quantity
+            #amount_total += line.price_unit * line.quantity
+            amount_total += line.price_total
         return res, amount_total
 
     # 準備客戶基本資料
@@ -334,3 +349,32 @@ class ECPAYINVOICEInherit(models.Model):
             return True
         else:
             return False
+
+    # 產生電子發票
+    def get_ecpay_invoice(self):
+        if self.ecpay_invoice_code is False :
+                raise UserError('請填入綠界電子發票自訂編號 ！！')
+
+        # 建立Odoo中，新的uniform.invoice的紀錄
+        record = self.env['uniform.invoice'].create({})
+
+        #invoice.Send['RelateNumber'] = record.related_number
+        record.related_number = self.ecpay_invoice_code
+
+        # 設定發票號碼
+        #record.name = aReturn_Info['InvoiceNumber']
+
+        # 成功開立發票後，將電子發票與Odoo發票關聯
+        self.ecpay_invoice_id = record
+
+        # 利用RelateNumber到綠界後台取得電子發票的詳細資訊並儲存到Odoo電子發票模組
+        record.get_ecpay_invoice_info()
+        record.name=record.IIS_Number
+
+        # 設定Odoo發票為已開電子發票
+        self.uniform_state = 'invoiced'
+        return True
+
+
+
+
