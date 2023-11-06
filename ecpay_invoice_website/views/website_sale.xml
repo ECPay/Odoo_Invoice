@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ecpay_invoice_invoice_stage"
+              name="Ecpay Invoice Invoice Stage"
+              inherit_id="website_sale.payment"
+              priority="40">
+        <xpath expr="//div[@id='payment_method']" position="before">
+            <div class="row ecpay-invoice-info-form">
+                <div class="col-lg-12 mt-4">
+                    <h3 class="o_page_header mt8">電子發票</h3>
+                </div>
+                <div class="col-md-12" id="ecpay_invoice_print">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline"
+                             data-type="eInvoice">
+                            <input class="form-check-input" type="radio" name="print_group"
+                                   id="not_print" value="0"
+                                   checked="true"/>
+                            <label class="form-check-label" for="not_print">電子發票</label>
+                            <small class="form-text text-muted">環保愛地球，建議使用</small>
+                        </div>
+                        <div class="form-check form-check-inline"
+                             data-type="paper">
+                            <input class="form-check-input" type="radio" name="print_group"
+                                   id="print" value="1"/>
+                            <label class="form-check-label" for="print">紙本發票</label>
+                            <small class="form-text text-muted">寄送至帳單地址</small>
+                        </div>
+                        <div class="form-check form-check-inline"
+                             data-type="donate">
+                            <input class="form-check-input" type="radio" name="print_group"
+                                   id="donate" value="2"/>
+                            <label class="form-check-label" for="donate">捐贈</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 電子發票 -->
+                <div class="col-12 ecpay-invoice-container invoice-page"
+                     data-type="eInvoice">
+                    <div class="col-md-12" id="invoice_type_selection">
+                        <div class="form-group">
+                            <label for="invoice_type">使用載具</label>
+                            <select class="form-control" id="invoice_e_type">
+                                <option value="0" selected="selected">無載具</option>
+                                <option value="1">綠界科技電子發票載具</option>
+                                <option value="2">自然人憑證</option>
+                                <option value="3">手機條碼</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 d-none" id="ecpay_invoice_CarrierNum">
+                        <div class="form-group">
+                            <label for="CarrierNum">載具編號</label>
+                            <input class="form-control" id="CarrierNum" maxlength="20" name="CarrierNum" type="text"/>
+                            <small class="form-text text-muted" id="warning-CarrierNum">
+                                載具格式為1碼斜線「/」加上7碼由數字及大寫英文字母及+-.符號組成的字串
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 紙本發票 -->
+                <div class="col-12 ecpay-invoice-container invoice-page"
+                     data-type="paper" style="display: none">
+                    <div class="col-md-12" id="div-invoice_address">
+                        <div class="form-group">
+                            <label for="invoice_address">發票寄送地址</label>
+                            <input class="form-control" id="invoice_address" name="invoice_address" type="text"
+                                   placeholder="請填寫正確發票寄送地址" t-att-value="order.partner_id.contact_address"/>
+                        </div>
+                        <div class="alert alert-danger d-none">住址至少要有5個字元</div>
+                    </div>
+
+                    <div class="col-md-12 mt-1" id="ecpay_invoice_identifier">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="identifier_group" id="not_identifier"
+                                       value="0" checked="true"/>
+                                <label class="form-check-label" for="not_identifier">不需統編</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="identifier_group" id="is_identifier"
+                                       value="1"/>
+                                <label class="form-check-label" for="is_identifier">需要統編</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 d-none" id="ecpay_invoice_identifier_name">
+                        <div id="div-identifier_name" class="form-group">
+                            <label for="identifier_name">受買人名稱</label>
+                            <input class="form-control" id="identifier_name" name="identifier_name" type="text"
+                                   placeholder="請填寫正確受買人名稱"/>
+                        </div>
+                        <div id="div-identifier" class="form-group">
+                            <label for="identifier">統一編號</label>
+                            <input class="form-control" id="identifier" maxlength="8" name="identifier" type="text"
+                                   placeholder="請填寫正確統一編號"/>
+                        </div>
+                        <div class="alert alert-danger d-none" id="warning-identifier"/>
+                    </div>
+                </div>
+
+                <!-- 捐贈 -->
+                <div class="col-md-12 ecpay-invoice-container invoice-page"
+                     data-type="donate" style="display: none">
+                    <div class="form-group">
+                        <label for="LoveCode">捐贈碼
+                            <a href="https://www.einvoice.nat.gov.tw/APCONSUMER/BTC603W/" target="_blank">查詢捐贈碼</a>
+                        </label>
+                        <input class="form-control" id="LoveCode" maxlength="7" name="LoveCode" type="text"
+                               placeholder="愛心碼格式應為3~7碼的數字"/>
+                        <div class="alert alert-danger d-none" role="alert" id="warning-LoveCode"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

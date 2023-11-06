@@ -1,4 +1,7 @@
-from odoo import models, fields, api
+# -*- coding: utf-8 -*-
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
+from odoo import models, fields
 
 
 class EcpayInvoiceSaleOrder(models.Model):
@@ -10,21 +13,23 @@ class EcpayInvoiceSaleOrder(models.Model):
     ec_print_address = fields.Char(string="發票寄送地址")
     ec_ident_name = fields.Char(string="發票抬頭")
     ec_ident = fields.Char(string="統一編號")
-    ec_carruer_type = fields.Selection(string='載具類別', selection=[('1', '綠界科技電子發票載具'), ('2', '消費者自然人憑證'),
-                                                                  ('3', '消費者手機條碼')])
-    ec_carruer_number = fields.Char(string="載具號碼")
+    ec_carrier_type = fields.Selection(string='載具類別',
+                                       selection=[('1', '綠界科技電子發票載具'), ('2', '消費者自然人憑證'),
+                                                  ('3', '消費者手機條碼')])
+    ec_carrier_number = fields.Char(string="載具號碼")
 
-    @api.multi
     def _prepare_invoice(self):
         res = super(EcpayInvoiceSaleOrder, self)._prepare_invoice()
 
-        res['ecpay_CustomerIdentifier'] = self.ec_ident
-        res['is_print'] = self.ec_print
-        res['is_donation'] = self.ec_donate
-        res['lovecode'] = self.ec_donate_number
-        res['ec_print_address'] = self.ec_print_address
-        res['ec_ident_name'] = self.ec_ident_name
-        res['carruerType'] = self.ec_carruer_type
-        res['carruernum'] = self.ec_carruer_number
+        res.update({
+            'ecpay_CustomerIdentifier': self.ec_ident,
+            'is_print': self.ec_print,
+            'is_donation': self.ec_donate,
+            'lovecode': self.ec_donate_number,
+            'ec_print_address': self.ec_print_address,
+            'ec_ident_name': self.ec_ident_name,
+            'carrierType': self.ec_carrier_type,
+            'carrierNum': self.ec_carrier_number,
+        })
 
         return res

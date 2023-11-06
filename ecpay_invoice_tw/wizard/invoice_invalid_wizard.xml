@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="invoice_invalid_wizard_view_form" model="ir.ui.view">
+            <field name="name">invoice.invalid.wizard.view.form</field>
+            <field name="model">invoice.invalid.wizard</field>
+            <field name="arch" type="xml">
+                <form string="作廢折讓發票">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="reason"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <footer>
+                            <button name="run_refund_invalid" string="確認" type="object" class="oe_highlight"/>
+                            <button string="取消" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

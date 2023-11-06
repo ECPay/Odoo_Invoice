@@ -1,25 +1,23 @@
-
-from odoo import models, fields, api
+# -*- coding: utf-8 -*-
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+from odoo import models, api
 from odoo.exceptions import UserError
+
 
 class ReportEcpayInvoice(models.AbstractModel):
     _name = 'report.ecpay_invoice_tw.invoice'
 
     @api.model
-    def get_report_values(self, docids, data=None):
-        docs = self.env['account.invoice'].browse(docids)
-        ecpay_invoice = []
+    def _get_report_values(self, docids, data=None):
+        docs = self.env['account.move'].browse(docids)
+        ecpay_invoice = self.env['uniform.invoice']
         for line in docs:
             if line.uniform_state == 'invoiced':
-                ecpay_invoice.append(line.ecpay_invoice_id.id)
+                ecpay_invoice += line.ecpay_invoice_id
             else:
                 raise UserError('不能列印有未開或已作廢的電子發票!!')
-        res = self.env['uniform.invoice'].browse(ecpay_invoice)
-        seller_Identifier = self.env['ir.config_parameter'].sudo().get_param('ecpay_invoice_tw.seller_Identifier')
         return {
-            'doc_ids': res.ids,
+            'doc_ids': ecpay_invoice.ids,
             'doc_model': 'uniform.invoice',
-            'docs': res,
-            'seller_Identifier': seller_Identifier,
-            'orderlines': docs.invoice_line_ids
+            'docs': ecpay_invoice,
         }

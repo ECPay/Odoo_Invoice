@@ -1,0 +1,112 @@
+.invoiceContainer{
+    font-family: "Times New Roman", Times, serif;
+}
+.invoiceContainer .invoice_inner{
+    width:5.7cm;
+    font-size: 14px;
+    background-color: white;
+    display: inline-block;
+}
+.invoiceContainer .invoice_inner .invoice{
+    width:5.7cm;
+    height:9.5cm;
+    text-align:center;
+    border:1px solid #CCC;
+}
+.invoice h1{
+    font-size:19px;
+    line-height:1.2;
+    max-height:68px;
+    overflow:hidden;
+    font-weight:bold;
+    margin:0;
+}
+.invoice h2{
+    font-size:21px;
+    font-weight:bold;
+    line-height:1;
+    margin:5px 0 4px;
+}
+.invoice h3{
+    font-size:24px;
+    margin:0 0 2px 0;
+    line-height:1;
+    font-weight:bold;
+}
+.invoice ul, .invoice_details ul {
+    margin:0;
+    overflow:hidden;
+}
+.invoice ul li, .invoice_details ul li{
+    color:#333;
+    margin:0 0 3px 0!important;
+    line-height:18px;
+    font-size:14px;
+    overflow:hidden;
+    list-style:none !important;
+    width:100%;
+    text-align:left;
+}
+.invoice li span.left, .invoice_details ul li span.left{
+    float:left;
+}
+.invoice li span.right, .invoice_details ul li span.right{
+    float:right;
+    text-align:right;
+}
+.invoice .QRCode img{
+    margin:3px 5px;
+}
+.invoiceContainer .invoice_inner .invoice_details{
+    width:5.7cm;
+    border:1px solid #CCC;
+    border-top:none;
+    padding:5px;
+    text-align:center;
+    background-color: white;
+}
+.invoice_details h2{
+    margin:0;
+    font-size:22px;
+    font-weight:bold;
+    margin:5px 0 10px 0;
+}
+.invoice_details ul{
+    border-bottom:1px dashed #333;
+    margin-bottom:10px;
+}
+.invoice_details .table{
+    border:none;
+    border-bottom:1px dashed #333;
+    margin-bottom:5px;
+}
+.invoice_details .table tr td, .invoice_details .table tr th{
+    border:none;
+    font-size:12px;
+    padding:0;
+    text-align:left;
+    padding:3px;
+}
+.invoice_details .table tr th{
+    text-align:center;
+}
+.invoice_details h4{
+    text-align:left;
+    margin:0;
+    font-size:14px;
+    font-weight:bold;
+}
+.record ul{
+    margin-top:20px;
+    margin-left:25px;
+}
+.record ul li{
+    color:#555;
+    list-style: outside disc;
+    line-height:22px;
+}
+.li {
+    float: left;
+    margin: 10px;
+    list-style: none;
+}

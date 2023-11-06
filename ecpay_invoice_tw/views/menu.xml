@@ -3,7 +3,8 @@
     <data>
         <menuitem id="uniform_invoice_menu"
                   name="統一發票"
-                  parent="account.menu_finance_receivables_documents"
+                  parent="account.menu_finance_receivables"
+                  groups="ecpay_invoice_tw.ecpay_invoice_group_user"
                   action="uniform_invoice_view_action"/>
     </data>
 </odoo>

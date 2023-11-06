@@ -6,20 +6,24 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='technical']" position="after">
-                    <group string="綠界電商資料" name="ec_data">
-                        <field name="ec_print"/>
-                        <field name="ec_donate"/>
-                        <field name="ec_donate_number"/>
-                        <field name="ec_ident_name"/>
-                        <field name="ec_ident"/>
-                        <field name="ec_print_address"/>
-                        <field name="ec_carruer_type"/>
-                        <field name="ec_carruer_number"/>
+                <xpath expr="//page[@name='other_information']" position="after">
+                    <page string="綠界電商資料">
+                        <group>
+                        <group name="ec_data">
+                            <field name="ec_print"/>
+                            <field name="ec_donate"/>
+                            <field name="ec_donate_number"/>
+                            <field name="ec_ident_name"/>
+                            <field name="ec_ident"/>
+                            <field name="ec_print_address"/>
+                            <field name="ec_carrier_type"/>
+                            <field name="ec_carrier_number"/>
+                        </group>
                     </group>
+                    </page>
+
                 </xpath>
             </field>
         </record>
-
     </data>
 </odoo>

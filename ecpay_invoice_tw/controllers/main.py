@@ -1,7 +1,7 @@
-
+# -*- coding: utf-8 -*-
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 from odoo import http
 from odoo.http import request
-
 
 
 class EcpayInvoiceController(http.Controller):
@@ -11,49 +11,56 @@ class EcpayInvoiceController(http.Controller):
         order_id = request.session['sale_order_id']
         order = request.env['sale.order'].sudo().browse(order_id)
 
-        res = {}
-        # 情況1：要列印發票
-        if kwargs['print_flag'] is True:
-            # 情況2：要列印發票也要開立統編
-            if kwargs['ident_flag'] is True:
-                res['ec_ident_name'] = kwargs['identifier_name']
-                res['ec_ident'] = kwargs['identifier']
-            res['ec_print_address'] = kwargs['invoice_address']
-            res['ec_print'] = True
-        # 情況3：要捐贈發票
-        elif kwargs['donate_flag'] is True:
-            res['ec_donate'] = True
-            res['ec_donate_number'] = kwargs['LoveCode']
-        # 情況4：不列印也不捐贈，只使用載具
-        elif kwargs['print_flag'] is False and kwargs['donate_flag'] is False:
-            if kwargs['invoice_type'] == '0':
-                res['ec_carruer_type'] = ''
-            else:
-                res['ec_carruer_type'] = kwargs['invoice_type']
+        res = {
+            'ec_ident_name': '',
+            'ec_ident': '',
+            'ec_print': '',
+            'ec_donate': '',
+            'ec_donate_number': '',
+            'ec_carrier_type': '',
+            'ec_carrier_number': '',
+        }
 
-            if kwargs['invoice_type'] == '2' or kwargs['invoice_type'] == '3':
-                res['ec_carruer_number'] = kwargs['CarruerNum']
-            else:
-                res['ec_carruer_number'] = ''
+        invoice_type = kwargs.get('invoiceType')
+        if type(invoice_type) is not int or not (-1 < invoice_type < 3):
+            return False
 
-        else:
-            print("error!!")
-        print(res)
+        if invoice_type == 0:
+            e_type = kwargs.get('e_type')
+
+            if not type(e_type) is int and not (-1 < e_type < 4):
+                return False
+
+            res.update({
+                'ec_carrier_type': str(e_type or ''),
+                'ec_carrier_number': kwargs.get('CarrierNum', '') if e_type > 1 else '',
+            })
+        elif invoice_type == 1:
+            address = kwargs.get('invoice_address')
+
+            if not address:
+                return False
+
+            res.update({
+                'ec_print': True,
+                'ec_print_address': address,
+            })
+
+            if kwargs.get('ident_flag', False):
+                res.update({
+                    'ec_ident_name': kwargs.get('identifier_name', ''),
+                    'ec_ident': kwargs.get('identifier', ''),
+                })
+        elif invoice_type == 2:
+            love_code = kwargs.get('LoveCode')
+
+            if not love_code:
+                return False
+
+            res.update({
+                'ec_donate': True,
+                'ec_donate_number': love_code,
+            })
+
         order.write(res)
-        return '200'
-
-    @http.route('/invoice/ecpay/agreed_invoice_allowance', type='http',auth="none", csrf=False)
-    def agreed_invoice_allowance(self, **kwargs):
-        if kwargs['RtnCode'] =='1':
-            print(kwargs['IA_Allow_No'])
-            invoice = request.env['account.invoice'].sudo().search([('IA_Allow_No', '=', kwargs['IA_Allow_No'])], limit=1)
-            if invoice:
-                invoice.write({'refund_state': 'agreed'})
-        else:
-            invoice = request.env['account.invoice'].sudo().search([('IA_Allow_No', '=', kwargs['IA_Allow_No'])], limit=1)
-            if invoice:
-                invoice.write({'refund_state': 'disagree'})
-
-
-        return '200'
-
+        return True

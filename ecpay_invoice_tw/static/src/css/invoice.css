@@ -9,15 +9,9 @@
 }
 .invoiceContainer .invoice_inner .invoice{
     width:5.7cm;
-    height:9cm;
+    height:9.5cm;
     text-align:center;
     border:1px solid #CCC;
-    padding:5px;
-    padding-bottom:30px;
-    border-radius: 3px;
-    overflow: hidden;
-
-    background-color: white;
 }
 .invoice h1{
     font-size:19px;

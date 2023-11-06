@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form string="">
                     <header>
-                        <button string="查看發票資訊" type="object" name="get_ecpay_invoice_info"/>
+                        <button string="取得發票資訊" type="object" name="get_ecpay_invoice_info"/>
                     </header>
                     <sheet>
                         <group>
@@ -30,8 +30,8 @@
                                 <field name="IIS_Type"/>
                             </group>
                             <group string="客戶資料">
-                                <field name="IIS_Carruer_Num"/>
-                                <field name="IIS_Carruer_Type"/>
+                                <field name="IIS_Carrier_Num"/>
+                                <field name="IIS_Carrier_Type"/>
                                 <field name="IIS_Customer_ID"/>
                                 <field name="IIS_Customer_Name"/>
                                 <field name="IIS_Identifier"/>

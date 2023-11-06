@@ -1,0 +1,49 @@
+.ecpay_invoice_container {
+  .placeholder-danger::placeholder {
+    color: red;
+  }
+
+  #invoice_type {
+    label {
+      display: inline-block;
+
+      &:not(:first-child) {
+        padding-left: 1rem;
+      }
+
+      small {
+        display: inline-block;
+        padding-left: .25rem;
+
+      }
+    }
+  }
+
+  #e_invoice {
+    display: none;
+    label {
+      width: 100%
+    }
+
+    #ecpay_invoice_identifier {
+      label {
+        display: inline-block;
+
+        &:not(:first-child) {
+          padding-left: 1rem;
+        }
+      }
+    }
+  }
+
+  #paper_invoice, #donate_invoice {
+    display: none;
+    label {
+      width: 100%
+    }
+  }
+
+  .show {
+    display: block !important;
+  }
+}

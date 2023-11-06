@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_uniform_invoice,access_uniform_invoice,model_uniform_invoice,base.group_user,1,1,1,1
+access_invoice_invalid_wizard,access_invoice_invalid_wizard,model_invoice_invalid_wizard,base.group_user,1,1,1,1
+access_action_invalid_invoice_wizard,access_action_invalid_invoice_wizard,model_action_invalid_invoice_wizard,base.group_user,1,1,1,1

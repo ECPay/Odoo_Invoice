@@ -27,9 +27,6 @@
             <field name="value">automatic</field>
         </record>
 
-        <record id="demo_invoice_mode" model="ir.config_parameter">
-            <field name="key">ecpay_invoice_tw.ecpay_AllowanceByCollegiate</field>
-            <field name="value">False</field>
-        </record>
+
     </data>
 </odoo>
