@@ -108,7 +108,7 @@
                      data-type="donate" style="display: none">
                     <div class="form-group">
                         <label for="LoveCode">捐贈碼
-                            <a href="https://www.einvoice.nat.gov.tw/APCONSUMER/BTC603W/" target="_blank">查詢捐贈碼</a>
+                            <a href="https://www.einvoice.nat.gov.tw/portal/btc/btc603w/search" target="_blank">查詢捐贈碼</a>
                         </label>
                         <input class="form-control" id="LoveCode" maxlength="7" name="LoveCode" type="text"
                                placeholder="愛心碼格式應為3~7碼的數字"/>
